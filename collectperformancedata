@@ -1,0 +1,25 @@
+-- PLEASE NOTE THAT THIS CODE IS NOT FOR PRODUCTION PURPOSES.
+-- IT IS TEST CODE THAT IS FOR LEARNING AND DEVELOPMENT PURPOSES.
+
+-- This line will change the default directory to wherever the DMA folder is on your machine.
+-- Typically the Command Prompt will default point to your C drive.
+
+cd "C:\Program Files\Microsoft Data Migration Assistant\SqlAssessmentConsole"
+
+-- This line kicks off the DMA assessment of your SQL server on-prem instance.
+-- Be sure to change the Data Source connection string to your on-prem server instance.
+-- The output folder parameter can be changed as well, depending on where you want to intermediate results of the assessment placed.
+
+.\SqlAssessment.exe PerfDataCollection --sqlConnectionStrings "Data Source=DESKTOP-D1DFU65\SQLEXPRESS;Initial Catalog=master; Integrated Security=True;" --outputFolder C:\Output
+
+-- Allow the assessment to run its course.
+-- You can hit enter at any time to end the assessment.
+-- However the assessment will need enough time to produce 3 files: CommandDbLevel_Counters, CommonInstanceLevel_Counters, PerformanceAggregated_Counters.
+-- If these files are not present in the output folder, the following code to aggregate and create a recommendation will not work.
+
+-- Kicks off the aggregation of data to develop a SKU recommendation, and dumps the result in the output folder.
+-- A result is also produced in the Command Line itself, but the JSON exported to the output folder is persistent and has more information available.
+-- You can change the output folder as desired, and define which type of Azure SQL DB (PAAS, VM, etc.) you want a recommendation on specifically, 
+-- else recommendations for all 3 types will be proved.
+
+.\SqlAssessment.exe GetSkuRecommendation --outputFolder C:\Output --targetPlatform AzureSqlDatabase
